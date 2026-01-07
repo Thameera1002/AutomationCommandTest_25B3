@@ -9,7 +9,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class AlertCommandTest {
     public static void main(String[] args) throws InterruptedException {
         //alertWithOK();
-        alertWithOKAndCancel();
+        // alertWithOKAndCancel();
+        alertWithTextBox();
     }
 
     public static void alertWithOK() throws InterruptedException{
@@ -45,5 +46,18 @@ public class AlertCommandTest {
        Thread.sleep(3000);
          alertCancel.dismiss();
         System.out.println(driver.findElement(By.id("demo")).getText());
+    }
+
+        public static void alertWithTextBox() throws InterruptedException{
+               WebDriver driver = WebDriverManager.chromedriver().create();
+       driver.manage().window().maximize();
+       driver.get("https://demo.automationtesting.in/Alerts.html");
+       driver.findElement(By.xpath("//a[normalize-space(text())='Alert with Textbox']")).click();
+       driver.findElement(By.cssSelector("[class='btn btn-info']")).click();
+       Thread.sleep(3000);
+       Alert alert = driver.switchTo().alert();
+       alert.sendKeys("DevStack QA");
+       alert.accept();
+       System.out.println(driver.findElement(By.id("demo1")).getText());
     }
 }
