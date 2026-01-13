@@ -13,7 +13,8 @@ public class MouseActionCommandTest {
     public static void main(String[] args) throws InterruptedException {
         // contextClickExample();
         // doubleClickExample();
-        sliderActionExample();
+        // sliderActionExample();
+        mouseHoverExample();
     }
     
     public static void contextClickExample() throws InterruptedException {
@@ -62,5 +63,18 @@ public class MouseActionCommandTest {
         action.clickAndHold(sliderInput).moveByOffset(10, 0).release().perform();
         Thread.sleep(2000);
         System.out.println("Updated Slider Value: " + sliderValue.getText());
+    }
+
+    public static void mouseHoverExample() throws InterruptedException {
+        WebDriver driver = WebDriverManager.chromedriver().create();
+        driver.manage().window().maximize();
+        driver.get("https://ecommerce-playground.lambdatest.io/");
+        WebElement element = driver.findElement(By.xpath("(//span[normalize-space(text())='My account'])[2]"));
+        Thread.sleep(2000);
+        Actions action = new Actions(driver);
+        action.moveToElement(element).build().perform();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//span[normalize-space(text())='Login']")).click();
+        System.out.println("Clicked on Login successfully");
     }
 }
