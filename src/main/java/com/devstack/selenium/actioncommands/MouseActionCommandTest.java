@@ -3,6 +3,7 @@ package com.devstack.selenium.actioncommands;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -11,7 +12,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class MouseActionCommandTest {
     public static void main(String[] args) throws InterruptedException {
         // contextClickExample();
-        doubleClickExample();
+        // doubleClickExample();
+        sliderActionExample();
     }
     
     public static void contextClickExample() throws InterruptedException {
@@ -39,5 +41,26 @@ public class MouseActionCommandTest {
          @Nullable
         String domTextValue = driver.findElement(By.cssSelector("textarea")).getAttribute("value");
         System.out.println("DOM Text Area Value: " + domTextValue);
+    }
+
+    public static void sliderActionExample() throws InterruptedException {
+        WebDriver driver = WebDriverManager.chromedriver().create();
+        driver.manage().window().maximize();
+        driver.get("https://www.testmu.ai/selenium-playground/drag-drop-range-sliders-demo/");
+        Thread.sleep(2000);
+        WebElement sliderInput = driver.findElement(By.cssSelector("#slider1 input"));
+        WebElement sliderValue = driver.findElement(By.id("range"));
+        System.out.println("Initial Slider Value: " + sliderValue.getText());
+        Thread.sleep(2000);
+
+        Point sliderLocation = sliderInput.getLocation();
+        int xcord = sliderLocation.getX();
+        int ycord = sliderLocation.getY();
+        System.out.println("Slider Location - X: " + xcord + " Y: " + ycord);
+
+        Actions action = new Actions(driver);
+        action.clickAndHold(sliderInput).moveByOffset(10, 0).release().perform();
+        Thread.sleep(2000);
+        System.out.println("Updated Slider Value: " + sliderValue.getText());
     }
 }
